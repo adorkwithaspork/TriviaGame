@@ -5,27 +5,27 @@ $(document).ready(function () {
 
 
 
-var correctAnswer = [];
-var incorrectAnswer = [];
+var correctAnswer = 0;
+var incorrectAnswer = 0;
 
 //Major Task 1: Questions -- create objects in the array to call on them
 
 var questions = [{
     question: "What does Napoleon Dynamites famous shirt say?",
-    answer: ["Make 7 UP Yours", "vote pedro", "make it rain", "I'm with Stupid"],
+    answer: ["Make 7 UP Yours", "vote pedro", "Make it Rain", "I am with Stupid"],
     correct: ["vote pedro"]
 }, {
     question: "Who did Janet Jackson perform with during her Superbowl halftime show wardrobe malfunction?",
     answer: ["Aerosmith", "Justin Timberlake", "Beyonce", "Brittany Spears"],
-    correct: ["Justin Timerlake"]
+    correct: ["Justin Timberlake"]
 }, {
     question: "What was y2k?",
     answer: ["N'SYNC and Backstret Boys Collaboration Album", "The First Crypto Currency", "Midnight on January 1, 2000, all electronic devices would cease to work"],
     correct: ["Midnight on January 1, 2000, all electronic devices would cease to work"]
 }, {
     question: "Who was Dr. Dre?",
-    answer: ["brain surgery pioneer", "A famous microbiologist", "A famous rapper", "A space cadet"],
-    correct: ["A famous rapper"]
+    answer: ["brain surgery pioneer", "A famous microbiologist", "A famous rapper who started with NWA", "A space cadet"],
+    correct: ["A famous rapper who started with NWA"]
 }];
 
 
@@ -52,7 +52,7 @@ var initializeGame = function () {
         questionDiv.html("<h2>" + questions[i].question + "</h2>")
         for (var j = 0; j < questions[i].answer.length; j++) {
             console.log("questions[i].answer.length", questions[i].answer.length);
-            questionDiv.append("<input type='radio' name='question-" + i + "'value'" + questions[i].answer[j] + "''>" + questions[i].answer[j]);
+            questionDiv.append(`<input type='radio' name='question-${i}' value='${questions[i].answer[j]}'> ${questions[i].answer[j]}`);
             $("#questions").append(questionDiv);
         }
     }
@@ -60,18 +60,21 @@ var initializeGame = function () {
 
 initializeGame();
 
-$("submitButton").click(function () {
-    for (i = 0; i < questions.answer.length; i++) {
+
+$("#submitButton").click(function () {
+    for (i = 0; i < questions.length; i++) {
+        // debugger;
         //take the input name and store as a variable 
-        //document.querySelector('input[name="question-"+[i]]:checked').value
-        $('input:radio[name=question-'+[i],':checked').val();
-        if ($(this.val() === questions[i].correct[i])) {
+        var answer = document.querySelector(`input[name="question-${i}"]:checked`).value
+        // $('input:radio[name=question-'+[i],':checked').val();
+        // debugger;
+        if(answer == questions[i].correct[0]) {
             correctAnswer++;
         } else {
+            // debugger;
             incorrectAnswer++;
         }
-       
-    } console.log("ca1", correctAnswer, "ia", incorrectAnswer)
+    }
 })
 console.log("ca2", correctAnswer, "ia", incorrectAnswer)
 

@@ -1,12 +1,6 @@
-// 2000's trivia
-$(document).ready(function () {
-
-})
-
-
-
 var correctAnswer = 0;
 var incorrectAnswer = 0;
+var unanswered = 0
 
 //Major Task 1: Questions -- create objects in the array to call on them
 
@@ -30,19 +24,33 @@ var questions = [{
 
 
 //Major Task 2: Create timer function  and stop function--  may want to initialize on key press????
-var timer;
 
-// function myFunction() {
-//     timer = setInterval(function () {
-//         done();
-//     }, 10000);
-// }
+var timer = 30;
 
-// myFunction();
+function start() {
+    counter = setInterval(decrement, 1000);
+};
 
-// function stop() {
-//     clearInterval(timer);
-// }
+function decrement() {
+    timer--;
+    $('#timeRemaining').html('<h2>' + " Time Remaining : " + timer + " Seconds" + '</h2>');
+    if (timer === 0) {
+        stop();
+        $('#container').hide();
+        $(".jumbotron").hide();
+        $("#submitButton").hide();
+        $("#results").show();
+        var html =
+            "<p>Correct: " + correctAnswer + "</p>" +
+            "<p>InCorrect: " + incorrectAnswer + "</p>" +
+            "<p>Unanswered: " + unanswered + "</p>"
+        document.querySelector("#results").innerHTML = html;
+    }
+}
+function stop() {
+    clearInterval(counter);
+}
+
 
 //MAJOR TASK 3 :CREATE DYNAMIC CONTAINERS FOR QUESTIONS & ANSWERS && have populate on the screen 
 
@@ -56,64 +64,39 @@ var initializeGame = function () {
             $("#questions").append(questionDiv);
         }
     }
+    $("#questions").show();
+    $("#results").hide();
+    $(".jumbotron").hide();
 }
 
-initializeGame();
 
 
 $("#submitButton").click(function () {
     for (i = 0; i < questions.length; i++) {
-        // debugger;
         //take the input name and store as a variable 
         var answer = document.querySelector(`input[name="question-${i}"]:checked`).value
         // $('input:radio[name=question-'+[i],':checked').val();
-        // debugger;
-        if(answer == questions[i].correct[0]) {
+        if (answer == questions[i].correct[0]) {
             correctAnswer++;
         } else {
-            // debugger;
             incorrectAnswer++;
         }
     }
-})
-console.log("ca2", correctAnswer, "ia", incorrectAnswer)
 
+    $('#container').hide();
+    $(".jumbotron").hide();
+    $("#submitButton").hide();
+    $("#results").show();
+    var html =
+        "<p>Correct: " + correctAnswer + "</p>" +
+        "<p>InCorrect: " + incorrectAnswer + "</p>" +
+        "<p>Unanswered: " + unanswered + "</p>"
+    document.querySelector("#results").innerHTML = html;
+});
 
-// function done(){
-//     $.each($("input[name='question-0]:checked"), function(){
-//         if ($(this.val() === questions[0].correct[0]) ) {
-//             correct++;
-//         }else{
-//             incorrect++;
-//         }
-//     });
+function startGame() {
+    initializeGame();
+    start();
+}
 
-//     $.each($("input[name='question-1]:checked"), function(){
-//         if ($(this.val() === questions[1].correct[1]) ) {
-//             correct++;
-//         }else{
-//             incorrect++;
-//         }
-//     });
-
-//     $.each($("input[name='question-2]:checked"), function(){
-//         if ($(this.val() === questions[2].correct[2]) ) {
-//             correct++;
-//         }else{
-//             incorrect++;
-//         }
-//     });
-//     $.each($("input[name='question-1]:checked"), function(){
-//         if ($(this.val() === questions[3].correct[3]) ) {
-//             correct++;
-//         }else{
-//             incorrect++;
-//         }
-//     });
-// }
-
-
-// $("#submitButton").click(event){
-// var radioValue = $("input[name='0']:checked")
-// console.log(radioValue);
-//
+$("#startButton").click(startGame());
